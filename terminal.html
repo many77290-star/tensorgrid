@@ -87,15 +87,14 @@ const $ = id => document.getElementById(id);
 
 function fmtUSD(n, compact){
   if(n===null||n===undefined||isNaN(n)) return "—";
-  if(n===0) return "0";
+  const abs = Math.abs(n);
   if(compact){
-    const a = Math.abs(n);
-    if(a>=1e9) return (n/1e9).toFixed(2)+"B";
-    if(a>=1e6) return (n/1e6).toFixed(2)+"M";
-    if(a>=1e3) return (n/1e3).toFixed(1)+"K";
+    if(abs>=1e9) return (n/1e9).toFixed(2)+"B";
+    if(abs>=1e6) return (n/1e6).toFixed(2)+"M";
+    if(abs>=1e3) return (n/1e3).toFixed(1)+"K";
     return n.toFixed(2);
   }
-  return n.toLocaleString("en-US",{maximumFractionDigits:a<1?6:2});
+  return n.toLocaleString("en-US",{maximumFractionDigits:abs<1?6:2});
 }
 function fmtPct(n){
   if(n===null||n===undefined) return {t:"—",c:"fl"};
