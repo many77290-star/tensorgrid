@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensorGrid Pricing</title>
+<meta name="description" content="TensorGrid pricing: free public tier, $49/mo Standard for API rate limits and historical depth, $249/mo Pro for 15-min refresh SLA and alerts. Enterprise by request.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span><b>TensorGrid</b></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="terminal.html"><span class="live-dot"></span>Terminal</a>
+      <a href="docs.html">API Docs</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="cta" href="contact.html">Request Access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding:56px 0 20px">
+  <div class="wrap">
+    <span class="kicker">Pricing</span>
+    <h1>Start free. Pay when your team needs it.</h1>
+    <p class="lede">The terminal and the public feed are free, forever. Paid tiers unlock the API, historical depth, alerts and priority refresh — sized for teams that make real allocations on this data.</p>
+  </div>
+</header>
+
+<section style="padding:20px 0 40px">
+  <div class="wrap">
+    <div class="price-grid">
+
+      <div class="plan">
+        <div class="pn">Explorer</div>
+        <div class="pp">$0<span class="per"> / forever</span></div>
+        <div class="pd">For individuals evaluating the dataset.</div>
+        <ul>
+          <li><span class="c">→</span>Live terminal (all 117 subnets)</li>
+          <li><span class="c">→</span>Public JSON feed: <span class="mono">/feeds/subnets.json</span></li>
+          <li><span class="c">→</span>Meta endpoint: <span class="mono">/feeds/meta.json</span></li>
+          <li><span class="c">→</span>30-day historical snapshots (last 30)</li>
+          <li><span class="c">→</span>Rate limit: 10 req/min per IP</li>
+          <li><span class="c">→</span>Personal/internal use</li>
+        </ul>
+        <a class="btn btn-g" href="terminal.html">Open the terminal →</a>
+      </div>
+
+      <div class="plan hot">
+        <div class="pn">Standard</div>
+        <div class="pp">$49<span class="per"> / month</span></div>
+        <div class="pd">For teams wiring TensorGrid into dashboards or alerts.</div>
+        <ul>
+          <li><span class="c">→</span>Everything in Explorer</li>
+          <li><span class="c">→</span>Commercial license (TensorGrid Data License 1.0, paid)</li>
+          <li><span class="c">→</span>Rate limit: 300 req/min</li>
+          <li><span class="c">→</span>400-day historical snapshots</li>
+          <li><span class="c">→</span>Email-based alerts on configurable conditions</li>
+          <li><span class="c">→</span>Support via <a href="https://github.com/many77290-star/tensorgrid/issues/new?labels=support">GitHub issues</a> (label <code class="mono">support</code>)</li>
+          <li><span class="c">→</span>Up to 5 seats</li>
+        </ul>
+        <a class="btn btn-p" href="contact.html">Request Standard →</a>
+      </div>
+
+      <div class="plan">
+        <div class="pn">Pro</div>
+        <div class="pp">$249<span class="per"> / month</span></div>
+        <div class="pd">For production systems and desks that trade.</div>
+        <ul>
+          <li><span class="c">→</span>Everything in Standard</li>
+          <li><span class="c">→</span>Prioritized 15-min refresh SLA</li>
+          <li><span class="c">→</span>Rate limit: 3,000 req/min</li>
+          <li><span class="c">→</span>Custom fields / sub-dataset (e.g. TAO-only, top-N caps)</li>
+          <li><span class="c">→</span>Webhooks and Telegram alerts</li>
+          <li><span class="c">→</span>Unlimited seats, team SSO by request</li>
+          <li><span class="c">→</span>Priority human support (business hours, via GitHub issues with label <code class="mono">pro</code>)</li>
+        </ul>
+        <a class="btn btn-p" href="contact.html">Request Pro →</a>
+      </div>
+
+    </div>
+
+    <div class="band" style="margin-top:32px">
+      <h2>Enterprise &amp; custom</h2>
+      <p>Dedicated refresh cadence, private endpoints, on-prem JSON delivery, or bespoke datasets. Talk to us — we'll scope it inside 2 business days.</p>
+      <div class="hero-cta" style="justify-content:center;margin-bottom:0">
+        <a class="btn btn-p" href="contact.html">Contact Enterprise →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:0 0 60px">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">The fine print</span>
+      <h2>What exactly you're buying</h2>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h3>Refresh, not real-time</h3><p>TensorGrid refreshes every 15 min (Pro: SLA-guaranteed within 30 min of upstream publish). For tick-level data, we'll tell you honestly: we are not the right tool.</p></div>
+      <div class="card"><h3>Not investment advice</h3><p>You're buying normalized data and a terminal, not signals, not picks, not recommendations. The 'beats TAO' flag is descriptive, not prescriptive.</p></div>
+      <div class="card"><h3>No token custody, no keys</h3><p>TensorGrid does not hold TAO, alpha tokens, or API keys. Nothing touches your custody. Public tier requires no auth.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="col"><a href="index.html" class="brand" style="margin-bottom:10px"><span class="mark"></span><b>TensorGrid</b></a></div>
+    <div class="col"><h4>Data</h4><a href="feeds/subnets.json">subnets.json</a><a href="feeds/meta.json">meta.json</a><a href="docs.html">API docs</a></div>
+    <div class="col"><h4>Company</h4><a href="contact.html">Request Access</a><a href="#">Status</a><a href="#">Privacy</a></div>
+  </div>
+  <div class="wrap" style="margin-top:22px"><span class="note">Billed monthly, cancel anytime. Prices in USD, excl. tax where applicable.</span></div>
+</footer>
+</body>
+</html>

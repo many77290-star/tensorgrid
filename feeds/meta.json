@@ -1,0 +1,20 @@
+{
+  "product": "TensorGrid",
+  "product_url": "https://many77290-star.github.io/tensorgrid",
+  "api_base": "https://many77290-star.github.io/tensorgrid/feeds",
+  "version": "1.0",
+  "refresh_minutes": 15,
+  "rate_limit": {
+    "free": "10 req/min",
+    "standard": "300 req/min",
+    "pro": "3000 req/min"
+  },
+  "endpoints": {
+    "subnets": "/feeds/subnets.json",
+    "meta": "/feeds/meta.json",
+    "history": "/feeds/history/snapshot-YYYYMMDD.json"
+  },
+  "licensed_under": "TensorGrid Data License 1.0 (see /docs)",
+  "contact": "github.com/many77290-star/tensorgrid/issues?labels=access",
+  "generated_at": "2026-09-15T15:22:28Z"
+}

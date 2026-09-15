@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensorGrid API — Docs</title>
+<meta name="description" content="TensorGrid API documentation: JSON endpoints for Bittensor subnet alpha tokens, refresh cadence, schema, data hygiene, rate limits, licensing.">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .doc{padding:40px 0 60px; max-width:860px}
+  .doc h2{font-size:1.5rem;margin:32px 0 10px}
+  .doc h3{font-size:1.05rem;margin:18px 0 8px;color:var(--acc-2)}
+  .doc p,.doc li{color:var(--txt-2);line-height:1.65}
+  .doc ul,.doc ol{padding-left:20px}
+  .endpoint{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.85rem;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0}
+  .method{font-size:.66rem;font-weight:700;background:var(--acc);color:#04120d;padding:2px 8px;border-radius:5px;letter-spacing:.08em}
+  .url{color:var(--txt);word-break:break-all}
+  .schema pre{background:#04060a;border:1px solid var(--line);border-radius:10px;padding:14px;font-family:var(--mono);font-size:.78rem;overflow:auto;line-height:1.6}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span><b>TensorGrid</b></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="terminal.html"><span class="live-dot"></span>Terminal</a>
+      <a href="docs.html">API Docs</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="cta" href="contact.html">Request Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="doc">
+    <div class="hero" style="padding:12px 0 0">
+      <span class="kicker" style="margin-bottom:12px">TensorGrid API</span>
+      <h1 style="font-size:clamp(1.9rem,4vw,2.6rem)">Market intelligence, as JSON.</h1>
+      <p class="lede">One endpoint per need. Refreshed every 15 minutes by an automated pipeline. No SDK, no auth on the public tier, stable field names.</p>
+    </div>
+
+    <h2>Base URL</h2>
+    <div class="endpoint"><span class="method">BASE</span><span class="url">https://many77290-star.github.io/tensorgrid/feeds</span></div>
+    <p>All endpoints are <code class="mono">GET</code>. All responses are UTF-8 JSON. All timestamps are ISO-8601 UTC.</p>
+
+    <h2>Endpoints</h2>
+
+    <h3>1. Subnets — the full normalized universe</h3>
+    <div class="endpoint"><span class="method">GET</span><span class="url">/feeds/subnets.json</span></div>
+    <p>Every Bittensor subnet alpha token with its price, market cap, volume, 24h/7d/30d performance, ranks, and the alpha-vs-TAO signal.</p>
+
+    <h3>2. Meta — feed envelope</h3>
+    <div class="endpoint"><span class="method">GET</span><span class="url">/feeds/meta.json</span></div>
+    <p>Version, API base, refresh cadence, rate limits, contact. Use it to detect breaking changes.</p>
+
+    <h3>3. Historical — daily snapshots</h3>
+    <div class="endpoint"><span class="method">GET</span><span class="url">/feeds/history/snapshot-YYYYMMDD.json</span></div>
+    <p>One light snapshot per day: TAO price, universe median 30d, beat-TAO count, top-5 market caps. Retention: 400 days (rolling).</p>
+
+    <h2>Sample: /feeds/subnets.json (truncated)</h2>
+    <div class="schema">
+<pre>{
+  "asset": "bittensor-subnets",
+  "version": "1.0",
+  "generated_at": "2026-09-15T14:20:11Z",
+  "source": "CoinGecko category=bittensor-subnets (public, keyless)",
+  "tao": {
+    "usd": 222.96,
+    "var24h": -4.19,
+    "var7d": -11.20,
+    "var30d": 14.80,
+    "market_cap_usd": 2528420402,
+    "total_volume_usd": 147588272
+  },
+  "universe": {
+    "count": 117,
+    "with_30d_data": 117,
+    "median_30d": 3.5,
+    "beat_tao_count": 26,
+    "beat_tao_pct": 22.2
+  },
+  "subnets": [
+    {
+      "symbol": "sn51",
+      "name": "lium",
+      "id": "celium",
+      "usd": 20.35,
+      "var24h": -5.02,
+      "var7d": -7.90,
+      "var30d": 38.0,
+      "var30d_glitched": false,
+      "market_cap_usd": 95453118,
+      "total_volume_usd": 3929271,
+      "circulating_supply": 4691021.128,
+      "ath_usd": 37.11,
+      "high_24h": 22.68,
+      "low_24h": 20.35,
+      "rank_by_mcap": 1,
+      "rank_by_30d": 14,
+      "beats_tao_30d": true
+    }
+    /* ... 116 more ... */
+  ]
+}</pre>
+    </div>
+
+    <h2>Field reference</h2>
+    <div class="schema">
+<pre>tao:              { usd, var24h, var7d, var30d, market_cap_usd, total_volume_usd }
+universe:         { count, with_30d_data, median_30d, beat_tao_count, beat_tao_pct }
+subnets[]: {
+  symbol             string   lowercase CoinGecko symbol (sn4, sn51, ...)
+  name               string   CoinGecko name (can be null)
+  id                 string   CoinGecko id (stable)
+  usd                number   current price, USD
+  var24h, var7d, var30d  number
+  var30d_glitched   boolean    true if |var30d| &gt; 3000 (neutralized, null in var30d)
+  market_cap_usd     number|null
+  total_volume_usd   number|null
+  circulating_supply number|null
+  ath_usd            number|null   all-time high
+  high_24h, low_24h  number|null   24h range
+  rank_by_mcap       int          1 = largest market cap
+  rank_by_30d        int|null     1 = biggest 30d performer (glitch-filtered)
+  beats_tao_30d      boolean      var30d &gt; tao.var30d AND both present
+}</pre>
+    </div>
+
+    <h2>Data hygiene</h2>
+    <ul>
+      <li><strong>Upstream:</strong> CoinGecko public market data, category <code class="mono">bittensor-subnets</code>.</li>
+      <li><strong>30d glitch filter:</strong> any 30d change beyond ±3,000 % is nullified in <code class="mono">var30d</code> and flagged via <code class="mono">var30d_glitched: true</code>. Ranks and the beat-TAO counter ignore glitched tokens.</li>
+      <li><strong>Missing fields:</strong> when upstream doesn't report a value, the field is <code class="mono">null</code> — never a sentinel 0.</li>
+      <li><strong>Ranks:</strong> computed at refresh time from the current snapshot; they are not time-series-stable.</li>
+      <li><strong>Refresh:</strong> every 15 minutes (cron on the hosting machine). Client-side terminals refresh every 5 minutes with <code class="mono">Cache: no-store</code>.</li>
+    </ul>
+
+    <h2>Rate limits &amp; fair use</h2>
+    <ul>
+      <li>Public tier: <strong>10 requests/min</strong> per IP.</li>
+      <li>If you need more, upgrade — see <a href="pricing.html">pricing</a>.</li>
+      <li>429 responses include a <code class="mono">Retry-After</code> header. Cache responses at least 60 s where reasonable.</li>
+    </ul>
+
+    <h2>Versioning</h2>
+    <ul>
+      <li>Breaking field renames will bump <code class="mono">version</code> inside <code class="mono">/feeds/subnets.json</code> and <code class="mono">/feeds/meta.json</code>.</li>
+      <li>Deprecated fields stay for at least 90 days before removal.</li>
+      <li>Check <code class="mono">/feeds/meta.json</code> in production on startup.</li>
+    </ul>
+
+    <h2>Licensing</h2>
+    <p>TensorGrid serves upstream CoinGecko market data, normalized, under the <strong>TensorGrid Data License 1.0</strong>:</p>
+    <ul>
+      <li>Free personal/internal use for the published feed.</li>
+      <li>Commercial redistribution, resale or bundling inside a product requires a paid tier.</li>
+      <li>Attribution: <a class="mono">TensorGrid (https://many77290-star.github.io/tensorgrid)</a> when referencing the normalized dataset outside of your private product.</li>
+      <li>The license is reviewed on every <code class="mono">version</code> bump.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>For API questions, enterprise needs or licensing, open an <a href="https://github.com/many77290-star/tensorgrid/issues/new?labels=support">issue on GitHub</a> with the label <code class="mono">support</code> — see the <a href="contact.html">contact page</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="col"><a href="index.html" class="brand" style="margin-bottom:10px"><span class="mark"></span><b>TensorGrid</b></a></div>
+    <div class="col"><h4>Data</h4><a href="feeds/subnets.json">subnets.json</a><a href="feeds/meta.json">meta.json</a><a href="#">Status</a></div>
+    <div class="col"><h4>Product</h4><a href="terminal.html">Terminal</a><a href="pricing.html">Pricing</a><a href="contact.html">Request Access</a></div>
+  </div>
+  <div class="wrap" style="margin-top:22px"><span class="note">Upstream © CoinGecko · Normalized by TensorGrid · Not investment advice.</span></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+name: refresh
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate feed (no push)
+        run: python refresh_feed.py
+
+      - name: Commit + push if data changed
+        run: |
+          git config user.name "TensorGrid Bot"
+          git config user.email "bot@many77290-star.github.com"
+          if ! git diff --quiet -- feeds/ ; then
+            stamp=$(date -u +"%Y-%m-%d %H:%M UTC")
+            git add feeds
+            git commit -m "feeds: refresh ${stamp} (auto)" -- feeds
+            git push
+          else
+            echo "no change, skipping push"
+          fi

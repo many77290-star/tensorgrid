@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensorGrid — Market Intelligence for Bittensor Subnets</title>
+<meta name="description" content="TensorGrid is the B2B market intelligence terminal for Bittensor subnets: normalized alpha-token data (price, market cap, liquidity, rank, alpha-vs-TAO signal) delivered as a live terminal and a clean JSON API.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%232fd4a0'/><stop offset='1' stop-color='%2338bdf8'/></linearGradient></defs><rect x='20' y='20' width='60' height='60' rx='14' fill='url(%23g)'/></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span><b>TensorGrid</b></a>
+    <div class="nav-links">
+      <a href="terminal.html"><span class="live-dot"></span>Terminal</a>
+      <a href="docs.html">API Docs</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="cta" href="contact.html">Request Access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker"><span class="live-dot"></span>Live · refreshes every 15 min · 117 subnets tracked</span>
+    <h1>The intelligence layer for<br><span class="hl">Bittensor subnets</span></h1>
+    <p class="lede">Alpha tokens, TAO pools, emissions and owners — scattered across paid APIs, raw CoinGecko feeds and ad-hoc dashboards. TensorGrid aggregates, normalizes and serves the whole Bittensor subnet universe as one clean dataset: a live terminal for your desk, a JSON API for your stack.</p>
+    <div class="hero-cta">
+      <a class="btn btn-p" href="terminal.html">Open the live terminal →</a>
+      <a class="btn btn-g" href="pricing.html">See pricing</a>
+    </div>
+    <div class="hero-stats">
+      <div class="cell"><div class="k">Subnets tracked</div><div class="v">117 <span class="s">alpha tokens</span></div></div>
+      <div class="cell"><div class="k">Refresh cycle</div><div class="v">15<span class="s"> min</span></div></div>
+      <div class="cell"><div class="k">Delivery</div><div class="v">2<span class="s"> terminal + API</span></div></div>
+      <div class="cell"><div class="k">Setup time</div><div class="v">5<span class="s"> min</span></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- ===== PAIN ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">The problem</span>
+      <h2>You don't have a data problem. You have a plumbing problem.</h2>
+      <p>Every team working on Bittensor — stakers, subnet operations, market makers, quant desks — rebuilds the same pipeline from scratch to answer one simple question: <em>which subnet alpha actually beats TAO, and is it liquid enough to trade?</em></p>
+    </div>
+    <div class="split">
+      <div class="pain">
+        <div class="card">
+          <h3>Without TensorGrid</h3>
+          <ul class="list">
+            <li><span class="x">✕</span> Paid API keys to get pool data, no self-hosted alternative</li>
+            <li><span class="x">✕</span> Raw CoinGecko feed: prices only, no market cap rank, no liquidity view</li>
+            <li><span class="x">✕</span> CoinGecko glitches: +5,000% fake 30d moves polluting your signals</li>
+            <li><span class="x">✕</span> An on-chain btcli chain to read subnet details when you need more</li>
+            <li><span class="x">✕</span> A private script each teammate writes, none shared, none maintained</li>
+          </ul>
+        </div>
+      </div>
+      <div class="fix">
+        <div class="card">
+          <h3>With TensorGrid</h3>
+          <ul class="list">
+            <li><span class="c">→</span> One normalized dataset: price, market cap, volume, 24h/7d/30d, rank</li>
+            <li><span class="c">→</span> Glitch-filtered 30d performance — anomalies neutralized and flagged</li>
+            <li><span class="c">→</span> The decision metric, pre-computed: <strong>alpha vs TAO, 30d</strong>, per token and across the universe</li>
+            <li><span class="c">→</span> Daily historical snapshots on top, ready for backtests and alerts</li>
+            <li><span class="c">→</span> One JSON endpoint to integrate, one terminal to read — no per-employee pipeline</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCT ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">The product</span>
+      <h2>Two surfaces, one dataset</h2>
+    </div>
+    <div class="frow" style="margin-bottom:40px">
+      <div class="copy">
+        <h3>A live terminal for decisions</h3>
+        <p>Open the terminal. Sort 117 subnet alpha tokens by market cap, 30d performance or liquidity. Filter instantly. See which tokens beat TAO on 30d and flag them directly. The same view your research team should have had months ago.</p>
+        <a class="btn btn-g" href="terminal.html">Open the terminal →</a>
+      </div>
+      <div class="code">
+        <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="lbl">terminal.html</span></div>
+<pre>$ curl https://many77290-star.github.io/tensorgrid/feeds/subnets.json | jq '.tao, .universe'
+{
+  "usd": 222.96, "var30d": 14.8,
+  "market_cap_usd": 2528420402
+}
+{
+  "count": 117,
+  "median_30d": 3.5,
+  "beat_tao_count": 26,
+  "beat_tao_pct": 22.2
+}</pre>
+      </div>
+    </div>
+
+    <div class="grid g3">
+      <div class="card">
+        <span class="ic">🛰️</span>
+        <h3>Full universe coverage</h3>
+        <p>Every subnet alpha token on Bittensor, from the top caps down to the illiquid tails. Market cap, volume, circulating supply, ATH, 24h range.</p>
+      </div>
+      <div class="card">
+        <span class="ic">🎯</span>
+        <h3>The alpha vs TAO signal</h3>
+        <p>Subnet alpha only makes sense if it outperforms TAO. We compute it per token, rank it, and aggregate it across the universe — the metric that actually drives allocation.</p>
+      </div>
+      <div class="card">
+        <span class="ic">🧹</span>
+        <h3>Data hygiene built-in</h3>
+        <p>Glitches from upstream sources (absurd 30d moves, missing caps) are filtered, flagged and documented — so your models don't train on noise.</p>
+      </div>
+      <div class="card">
+        <span class="ic">📡</span>
+        <h3>JSON API, zero friction</h3>
+        <p>One URL, one JSON file, predictable fields. Curl it, stream it into your pipeline, feed your alerts. No SDK, no auth for the public tier.</p>
+      </div>
+      <div class="card">
+        <span class="ic">🗂️</span>
+        <h3>Historical snapshots</h3>
+        <p>Every day adds a snapshot of the universe (top caps, universe median, beat-TAO count). Build backtests, drawdown charts and trend trackers on real history.</p>
+      </div>
+      <div class="card">
+        <span class="ic">⏱️</span>
+        <h3>Refreshed every 15 min</h3>
+        <p>An automated refresh pipeline runs on schedule — no manual trigger, no stale data. The feed you see is always the feed upstream gave us, normalized.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTENDED BUYER ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Who buys this</span>
+      <h2>Built for teams that make decisions on Bittensor data</h2>
+      <p>TensorGrid is not a hobbyist dashboard. It is a market-intelligence feed for organizations where Bittensor is real money.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><span class="ic">🏦</span><h3>Crypto funds & stakers</h3><p>Allocating to TAO and subnet alpha? Compare 30d outperformance vs TAO, rank by liquidity, and make calls with normalized data — not spreadsheet screenshots.</p></div>
+      <div class="card"><span class="ic">⚛️</span><h3>Subnet operations</h3><p>Running or evaluating subnets? Track your position in the universe by market cap and 30d performance, watch competition, benchmark against the median.</p></div>
+      <div class="card"><span class="ic">📊</span><h3>Quant & research teams</h3><p>Feed models and backtests with a clean, glitch-filtered series. Historical snapshots give you the time axis; the JSON API gives you the plumbing.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING TEASER ===== -->
+<section>
+  <div class="wrap">
+    <div class="band">
+      <h2>Start free. Pay when your team needs it.</h2>
+      <p>The terminal and the public feed are free, forever. Paid tiers unlock higher rate limits, historical depth, alerts and priority refresh — for $49/mo and up. No card required to start.</p>
+      <div class="hero-cta" style="justify-content:center;margin-bottom:0">
+        <a class="btn btn-p" href="pricing.html">See the tiers →</a>
+        <a class="btn btn-g" href="contact.html">Talk to us</a>
+      </div>
+      <div class="pill-row">
+        <span class="pill">No credit card</span>
+        <span class="pill">Free tier forever</span>
+        <span class="pill">JSON API public</span>
+        <span class="pill">Refresh 15 min</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="col">
+      <div class="brand" style="margin-bottom:10px"><span class="mark"></span><b>TensorGrid</b></div>
+      <p style="max-width:280px">Market Intelligence for Bittensor Subnets. One normalized dataset, two surfaces, zero glue code.</p>
+    </div>
+    <div class="col">
+      <h4>Product</h4>
+      <a href="terminal.html">Terminal</a>
+      <a href="docs.html">API docs</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="col">
+      <h4>Company</h4>
+      <a href="contact.html">Contact / Sales</a>
+      <a href="#">Status</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:22px">
+    <span class="note">Data © CoinGecko (public), normalized & served under the TensorGrid Data License 1.0 · Not investment advice. Bittensor alpha tokens are illiquid and volatile.</span>
+  </div>
+</footer>
+
+</body>
+</html>

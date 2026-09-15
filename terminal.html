@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensorGrid Terminal — Bittensor Subnets</title>
+<meta name="description" content="Live terminal for Bittensor subnet alpha tokens: price, market cap, volume, 24h/7d/30d, rank, alpha-vs-TAO signal. Refreshes every 15 minutes.">
+<link rel="stylesheet" href="css/style.css">
+<style>body{background:var(--bg)} .term-wrap{padding:26px 0 60px}</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span><b>TensorGrid</b></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="terminal.html"><span class="live-dot"></span>Terminal</a>
+      <a href="docs.html">API Docs</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="cta" href="contact.html">Request Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap term-wrap">
+  <div class="term-top">
+    <h2>Bittensor Subnet Terminal</h2>
+    <div class="term-meta">
+      <span class="live-dot"></span>live · <span id="meta">loading…</span> · <span id="gen"></span>
+    </div>
+  </div>
+
+  <div class="kpi-strip" id="kpi">
+    <div class="kpi"><div class="k">Loading…</div><div class="v">—</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" id="search" placeholder="Filter by symbol or name (e.g. sn51, lium)…">
+    <button class="toggle" id="tBeats">only beats TAO (30d)</button>
+    <button class="toggle" id="tGlitch">show glitched 30d</button>
+    <button class="toggle" id="tNoCap">show no market cap</button>
+    <span class="muted small" id="count"></span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="grid-tbl" id="tbl">
+      <thead>
+        <tr>
+          <th data-k="rank_by_mcap">#</th>
+          <th data-k="symbol">Symbol</th>
+          <th>Price $</th>
+          <th data-k="market_cap_usd">Market Cap</th>
+          <th data-k="total_volume_usd">Volume 24h</th>
+          <th data-k="var24h">24h %</th>
+          <th data-k="var7d">7d %</th>
+          <th data-k="var30d">30d %</th>
+          <th>Alpha vs TAO</th>
+        </tr>
+      </thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+
+  <p class="note">
+    Data: CoinGecko <span class="mono">category=bittensor-subnets</span>, normalized by TensorGrid.
+    Refreshed every 15 min. 30d values above |3000%| are flagged as glitches (see <a href="docs.html">docs</a>).
+    Not investment advice.
+  </p>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="col">
+      <a href="index.html" class="brand" style="margin-bottom:10px"><span class="mark"></span><b>TensorGrid</b></a>
+    </div>
+    <div class="col"><h4>Data</h4><a href="feeds/subnets.json">subnets.json</a><a href="feeds/meta.json">meta.json</a><a href="docs.html">API</a></div>
+    <div class="col"><h4>Product</h4><a href="pricing.html">Pricing</a><a href="contact.html">Request Access</a></div>
+  </div>
+  <div class="wrap" style="margin-top:22px"><span class="note">Bittensor alpha tokens are illiquid and volatile. Past performance does not guarantee future results.</span></div>
+</footer>
+
+<script>
+const FEED = "feeds/subnets.json";
+let DATA = null, sortKey = "market_cap_usd", sortDir = "desc", showGlitch=false, showNoCap=false;
+const $ = id => document.getElementById(id);
+
+function fmtUSD(n, compact){
+  if(n===null||n===undefined||isNaN(n)) return "—";
+  if(n===0) return "0";
+  if(compact){
+    const a = Math.abs(n);
+    if(a>=1e9) return (n/1e9).toFixed(2)+"B";
+    if(a>=1e6) return (n/1e6).toFixed(2)+"M";
+    if(a>=1e3) return (n/1e3).toFixed(1)+"K";
+    return n.toFixed(2);
+  }
+  return n.toLocaleString("en-US",{maximumFractionDigits:a<1?6:2});
+}
+function fmtPct(n){
+  if(n===null||n===undefined) return {t:"—",c:"fl"};
+  const s = (n>0?"+":"")+n.toFixed(1)+"%";
+  return {t:s, c:n>0?"up":(n<0?"down":"fl")};
+}
+function rankLabel(n){ return n? "#"+n : "—"; }
+
+function renderMeta(d){
+  $("meta").textContent = `${d.universe.count} subnets · TAO $${fmtUSD(d.tao.usd)}`;
+  const g = d.generated_at? new Date(d.generated_at).toLocaleString("en-GB",{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'}) : "";
+  $("gen").textContent = "refreshed "+g;
+}
+function renderKPI(d){
+  const t = d.tao, u = d.universe;
+  const kpis = [
+    {k:"TAO price", v:t.usd, vt:"usd"},
+    {k:"TAO 30d", v:t.var30d, vt:"pct"},
+    {k:"Universe 30d median", v:u.median_30d, vt:"pct"},
+    {k:"Beat TAO (30d)", v:u.beat_tao_count+" / "+u.with_30d_data, vt:"raw"},
+    {k:"Beat TAO ratio", v:(u.beat_tao_pct!==null?u.beat_tao_pct+"%":"—"), vt:"raw"},
+  ];
+  $("kpi").innerHTML = kpis.map(x=>{
+    let val, cls="";
+    if(x.vt==="usd"){ val=fmtUSD(x.v); }
+    else if(x.vt==="pct"){ const p=fmtPct(x.v); val=p.t; cls=p.c; }
+    else { val=x.v; }
+    return `<div class="kpi"><div class="k">${x.k}</div><div class="v ${cls}">${val}</div></div>`;
+  }).join("");
+}
+function currentRows(){
+  let rows = DATA.subnets.slice();
+  const q = $("search").value.trim().toLowerCase();
+  if(q) rows = rows.filter(r => (r.symbol||"").includes(q) || (r.name||"").toLowerCase().includes(q));
+  if($("tBeats").classList.contains("on")) rows = rows.filter(r=>r.beats_tao_30d);
+  if(!showGlitch) rows = rows.filter(r=>!r.var30d_glitched);
+  if(!showNoCap) rows = rows.filter(r=>r.market_cap_usd!==null);
+  const dir = sortDir==="asc"?1:-1;
+  const key = sortKey;
+  rows.sort((a,b)=>{
+    const av = a[key]===null||a[key]===undefined? -Infinity : a[key];
+    const bv = b[key]===null||b[key]===undefined? -Infinity : b[key];
+    if(typeof av==="string") return av.localeCompare(bv)*dir;
+    return (av-bv)*dir;
+  });
+  return rows;
+}
+function render(){
+  if(!DATA) return;
+  const rows = currentRows();
+  $("count").textContent = `${rows.length} of ${DATA.subnets.length} shown`;
+  const maxMcap = Math.max(...DATA.subnets.map(s=>s.market_cap_usd||0), 1);
+  $("body").innerHTML = rows.map(r=>{
+    const p24=fmtPct(r.var24h), p7=fmtPct(r.var7d), p30=fmtPct(r.var30d);
+    const mcap = r.market_cap_usd? r.market_cap_usd/maxMcap*100 : 0;
+    const badge = r.beats_tao_30d? '<span class="badge-tao">beats TAO</span>':'<span class="badge-no"></span>';
+    const name = r.name? `<span class="name">${r.name}</span>`:"";
+    return `<tr>
+      <td class="rank-badge">${rankLabel(r.rank_by_mcap)}</td>
+      <td><span class="sym">${r.symbol}</span> ${name}</td>
+      <td>$${fmtUSD(r.usd)}</td>
+      <td><div class="bar-cell" style="display:flex;align-items:center"><div class="bar-fill" style="width:${mcap}%"></div><span style="margin-left:8px;font-size:.78rem">${fmtUSD(r.market_cap_usd,true)}</span></div></td>
+      <td>$${fmtUSD(r.total_volume_usd,true)}</td>
+      <td class="${p24.c}">${p24.t}</td>
+      <td class="${p7.c}">${p7.t}</td>
+      <td class="${p30.c} ${r.var30d_glitched?"glitch":""}">${p30.t}${r.var30d_glitched?" ⚠":""}</td>
+      <td>${badge}</td>
+    </tr>`;
+  }).join("");
+}
+
+async function load(){
+  try{
+    const r = await fetch(FEED, {cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    DATA = await r.json();
+    renderMeta(DATA);
+    renderKPI(DATA);
+    render();
+  }catch(e){
+    $("meta").textContent = "feed unavailable";
+    $("kpi").innerHTML = "";
+    $("body").innerHTML = `<tr><td colspan="9" class="err">⚠ Could not load feed: ${e.message}. Retry in a moment — the refresh pipeline regenerates this file every 15 min.</td></tr>`;
+  }
+}
+document.querySelectorAll("th[data-k]").forEach(th=>{
+  th.addEventListener("click", ()=>{
+    const k = th.dataset.k;
+    if(sortKey===k){ sortDir = sortDir==="asc"?"desc":"asc"; }
+    else { sortKey=k; sortDir = (k==="symbol")?"asc":"desc"; }
+    document.querySelectorAll("th").forEach(t=>t.removeAttribute("data-dir"));
+    th.setAttribute("data-dir", sortDir);
+    render();
+  });
+});
+$("search").addEventListener("input", render);
+$("tBeats").addEventListener("click", ()=>{ $("tBeats").classList.toggle("on"); render(); });
+$("tGlitch").addEventListener("click", ()=>{ $("tGlitch").classList.toggle("on"); showGlitch=$("tGlitch").classList.contains("on"); render(); });
+$("tNoCap").addEventListener("click", ()=>{ $("tNoCap").classList.toggle("on"); showNoCap=$("tNoCap").classList.contains("on"); render(); });
+
+load();
+setInterval(load, 5*60*1000); // auto-refresh client-side, aligns with pipeline
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensorGrid — Request Access</title>
+<meta name="description" content="Request TensorGrid access: tell us your team, your use case, and the tier you want. We reply within 2 business days.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span><b>TensorGrid</b></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="terminal.html"><span class="live-dot"></span>Terminal</a>
+      <a href="docs.html">API Docs</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="cta" href="contact.html">Request Access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding:56px 0 20px">
+  <div class="wrap">
+    <span class="kicker">Request Access</span>
+    <h1>Let's get your team on TensorGrid.</h1>
+    <p class="lede">Tell us what you're building and which tier fits. We reply within 2 business days with access, an invoice for paid tiers, and any data-scoping you need. No credit card required for Explorer.</p>
+  </div>
+</header>
+
+<section style="padding:20px 0 60px">
+  <div class="wrap" style="max-width:760px">
+    <form id="form" class="card" onsubmit="return submitForm(event)" style="display:flex;flex-direction:column;gap:16px">
+      <label>
+        <span class="k" style="display:block;margin-bottom:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-3)">Company / team</span>
+        <input class="search" name="company" placeholder="Acme Research, QuantDesk, StakingCo…" style="width:100%" required>
+      </label>
+      <label>
+        <span class="k" style="display:block;margin-bottom:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-3)">Work email</span>
+        <input class="search" type="email" name="email" placeholder="you@company.com" style="width:100%" required>
+      </label>
+      <label>
+        <span class="k" style="display:block;margin-bottom:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-3)">Tier you're evaluating</span>
+        <input class="search" list="tiers" name="tier" placeholder="Explorer / Standard / Pro" style="width:100%">
+        <datalist id="tiers">
+          <option value="Explorer">
+          <option value="Standard">
+          <option value="Pro">
+          <option value="Enterprise">
+        </datalist>
+      </label>
+      <label>
+        <span class="k" style="display:block;margin-bottom:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-3)">Use case (2–3 sentences is enough)</span>
+        <textarea class="search" name="message" rows="5" placeholder="What decisions does your team make on Bittensor data, and how would TensorGrid change them?" style="width:100%;font-family:var(--sans);background:var(--bg-3);color:var(--txt);border:1px solid var(--line-2);border-radius:8px;padding:10px 12px" required></textarea>
+      </label>
+      <button class="btn btn-p" type="submit">Send request →</button>
+      <div id="status" style="display:none;font-family:var(--mono);font-size:.85rem;background:rgba(47,212,160,.1);border:1px solid var(--acc);color:var(--acc);padding:12px 14px;border-radius:8px"></div>
+      <p class="note">Submissions go to the GitHub repo <span class="mono">many77290-star/tensorgrid</span> (issue template "Request Access"). We reply within 2 business days. No marketing list, no spam — only the access thread.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="col"><a href="index.html" class="brand" style="margin-bottom:10px"><span class="mark"></span><b>TensorGrid</b></a></div>
+    <div class="col"><h4>Product</h4><a href="terminal.html">Terminal</a><a href="docs.html">API docs</a><a href="pricing.html">Pricing</a></div>
+    <div class="col"><h4>Company</h4><a href="https://github.com/many77290-star/tensorgrid/issues/new?labels=access">Request Access</a><a href="https://github.com/many77290-star/tensorgrid">GitHub</a></div>
+  </div>
+  <div class="wrap" style="margin-top:22px"><span class="note">TensorGrid is market intelligence, not investment advice.</span></div>
+</footer>
+
+<script>
+function submitForm(e){
+  e.preventDefault();
+  const f = e.target;
+  const company = f.company.value.trim() || "your-company";
+  const email = f.email.value.trim();
+  const tier = f.tier.value || "Not specified";
+  const msg = f.message.value.trim();
+  const title = `Request Access · ${company} — ${tier}`;
+  const body = [
+    "**Company:** " + company,
+    "**Email:** " + email,
+    "**Tier:** " + tier,
+    "",
+    msg,
+    "",
+    "_(This issue was generated from the TensorGrid contact form.)_"
+  ].join("\n");
+  const url = "https://github.com/many77290-star/tensorgrid/issues/new?labels=access&title=" +
+              encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
+  const st = document.getElementById("status");
+  st.style.display = "block";
+  st.textContent = "→ Taking you to the GitHub request form. If nothing opens, use: https://github.com/many77290-star/tensorgrid/issues/new";
+  window.open(url, "_blank");
+  return false;
+}
+</script>
+</body>
+</html>
