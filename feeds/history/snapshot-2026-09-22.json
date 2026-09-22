@@ -1,30 +1,30 @@
 {
   "date": "2026-09-22",
-  "tao_usd": 317.35,
-  "tao_30d": 45.6492,
+  "tao_usd": 321.1,
+  "tao_30d": 43.2598,
   "count": 117,
-  "median_30d": 27.7368,
-  "beat_tao_count": 24,
+  "median_30d": 26.1744,
+  "beat_tao_count": 25,
   "top5_mcap": [
     {
       "symbol": "sn64",
-      "market_cap_usd": 131374322.0
+      "market_cap_usd": 130823057.0
     },
     {
       "symbol": "sn51",
-      "market_cap_usd": 125361044.0
+      "market_cap_usd": 126851746.0
     },
     {
       "symbol": "sn4",
-      "market_cap_usd": 99303309.0
+      "market_cap_usd": 99095553.0
     },
     {
       "symbol": "sn44",
-      "market_cap_usd": 62061290.0
+      "market_cap_usd": 62997299.0
     },
     {
       "symbol": "sn120",
-      "market_cap_usd": 61669032.0
+      "market_cap_usd": 61484902.0
     }
   ]
 }
