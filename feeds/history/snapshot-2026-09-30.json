@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-30",
+  "tao_usd": 304.15,
+  "tao_30d": 33.0542,
+  "count": 117,
+  "median_30d": 15.7238,
+  "beat_tao_count": 24,
+  "top5_mcap": [
+    {
+      "symbol": "sn51",
+      "market_cap_usd": 137666219.0
+    },
+    {
+      "symbol": "sn64",
+      "market_cap_usd": 129428601.0
+    },
+    {
+      "symbol": "sn4",
+      "market_cap_usd": 92881473.0
+    },
+    {
+      "symbol": "sn120",
+      "market_cap_usd": 58742047.0
+    },
+    {
+      "symbol": "sn53",
+      "market_cap_usd": 57303387.0
+    }
+  ]
+}
