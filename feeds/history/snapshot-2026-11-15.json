@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-15",
+  "tao_usd": 181.74,
+  "tao_30d": -34.48,
+  "count": 117,
+  "median_30d": -38.9483,
+  "beat_tao_count": 37,
+  "top5_mcap": [
+    {
+      "symbol": "sn51",
+      "market_cap_usd": 109842328.0
+    },
+    {
+      "symbol": "sn64",
+      "market_cap_usd": 71970287.0
+    },
+    {
+      "symbol": "sn4",
+      "market_cap_usd": 60984400.0
+    },
+    {
+      "symbol": "vanta",
+      "market_cap_usd": 36978062.0
+    },
+    {
+      "symbol": "sn120",
+      "market_cap_usd": 33590889.0
+    }
+  ]
+}
