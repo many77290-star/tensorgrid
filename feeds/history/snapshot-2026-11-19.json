@@ -1,30 +1,30 @@
 {
   "date": "2026-11-19",
-  "tao_usd": 198.43,
-  "tao_30d": -24.5089,
+  "tao_usd": 190.41,
+  "tao_30d": -29.4695,
   "count": 114,
-  "median_30d": -29.9096,
-  "beat_tao_count": 41,
+  "median_30d": -33.0585,
+  "beat_tao_count": 46,
   "top5_mcap": [
     {
       "symbol": "sn51",
-      "market_cap_usd": 122083656.0
+      "market_cap_usd": 118353884.0
     },
     {
       "symbol": "sn64",
-      "market_cap_usd": 78524760.0
+      "market_cap_usd": 76247754.0
     },
     {
       "symbol": "sn4",
-      "market_cap_usd": 64948099.0
+      "market_cap_usd": 62385766.0
     },
     {
       "symbol": "sn53",
-      "market_cap_usd": 42641831.0
+      "market_cap_usd": 40660237.0
     },
     {
       "symbol": "vanta",
-      "market_cap_usd": 41866559.0
+      "market_cap_usd": 40632665.0
     }
   ]
 }
